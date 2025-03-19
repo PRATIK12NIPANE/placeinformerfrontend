@@ -1,0 +1,232 @@
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Calibri", sans-serif;
+  font-weight: normal;
+}
+
+body {
+  background-color: #ffffff; /* Light background */
+  color: #2c3e50; /* Darker text for contrast */
+}
+
+/* Hero Section */
+.hero-section {
+  height: 90vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-image 1s ease-in-out;
+}
+
+.overlay {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  color: #34495e;
+  max-width: 75%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.overlay h1 {
+  font-size: 3.2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.overlay p {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #4a6274;
+}
+
+.explore-btn {
+  padding: 14px 30px;
+  background: #3498db;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.explore-btn:hover {
+  transform: scale(1.1);
+  background: #2980b9;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+  text-align: center;
+  padding: 70px 20px;
+  background: linear-gradient(135deg, #ecf0f1, #d5dbdb);
+  color: #2c3e50;
+}
+
+.why-choose-us h2 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #1f3a52;
+}
+
+.feature-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.feature-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 15px;
+  width: 320px;
+  text-align: center;
+  transition: transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-box:hover {
+  transform: scale(1.05);
+}
+
+.feature-box h3 {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin: 12px 0;
+  color: #2c3e50;
+}
+
+/* Traveler Reviews */
+.reviews {
+  background: #fafafa;
+  padding: 70px 20px;
+  text-align: center;
+}
+
+.reviews h2{
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #1f3a52;
+}
+
+.review-grid {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.review-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  text-align: center;
+}
+
+.review-box:hover {
+  transform: scale(1.05);
+}
+
+.review-box img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.review-box p {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #4a6274;
+}
+
+/* FAQs Section */
+.faqs {
+  padding: 80px 20px;
+  text-align: center;
+  background: #eef5f9;
+  color: #2c3e50;
+  font-family: "Calibri", sans-serif;
+}
+
+.faq-title {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #1f3a52;
+}
+
+.faq-box {
+  max-width: 1200px;
+  margin: auto;
+  text-align: left;
+}
+
+.faq-item {
+  margin: 15px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item:hover {
+  transform: scale(1.03);
+  background: #ffffff;
+}
+
+summary {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+  padding: 12px;
+}
+
+summary::marker {
+  color: #2980b9;
+}
+
+.faq-item p {
+  font-size: 1.2rem;
+  color: #4a6274;
+  padding: 12px 0 0;
+  line-height: 1.6;
+}
+
+
+details {
+  margin: 15px auto;
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+details:hover {
+  transform: scale(1.02);
+}
+
+summary {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2c3e50;
+  cursor: pointer;
+}
