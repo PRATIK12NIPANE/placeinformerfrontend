@@ -10,7 +10,7 @@ const Footer = () => {
         <a href="/privacy-policy">Privacy Policy</a>
         <a href="/terms-of-service">Terms of Service</a>
       </div>
-      <p>&copy; 2025 YourCompany. All rights reserved.</p>
+     <p>&copy; 2025 Developed by @PratikNipane. All rights reserved.</p>
     </footer>
   );
 };
