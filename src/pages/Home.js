@@ -1,109 +1,261 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { MapPin, Star, Compass } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence,useAnimation } from "framer-motion";
 import "../styles/Home.css";
+import { useInView } from "react-intersection-observer";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { StarFill, ChevronLeft, ChevronRight } from "react-bootstrap-icons";
+
 
 const images = [
-  "/images/img8.png",
-  "/images/img3.jpg",
-  "/images/img4.jpg",
-  "/images/img6.jpg",
+  {
+    src: "/images/beach.jpg",
+    title: "Explore Breathtaking Beaches",
+    subtitle: "Feel the ocean breeze and the soft sand under your feet.",
+  },
+  {
+    src: "/images/mountains.jpg",
+    title: "Adventure in the Mountains",
+    subtitle: "Hike through stunning landscapes and breathe in the fresh air.",
+  },
+  {
+    src: "/images/city.jpg",
+    title: "Discover Vibrant Cities",
+    subtitle: "Experience culture, nightlife, and endless excitement.",
+  },
+  {
+    src: "/images/forest.jpg",
+    title: "Relax in the Wilderness",
+    subtitle: "Find peace and serenity among lush greenery.",
+  },
 ];
 
-const reviews = [
-  { name: "Rahul", image: "/images/person1.jpeg", review: "Absolutely amazing! 🌟" },
-  { name: "Priya", image: "/images/person2.png", review: "Hidden gems made easy!" },
-  { name: "Aniket", image: "/images/person3.jpeg", review: "Best travel guide ever!" },
+
+const gems = [
+  { id: 1, name: "Bali, Indonesia", image: "/images/gem1.jpg", description: "A tropical paradise with stunning beaches." },
+  { id: 2, name: "Santorini, Greece", image: "/images/gem2.jpg", description: "Whitewashed buildings and blue-domed churches." },
+  { id: 3, name: "Kyoto, Japan", image: "/images/gem3.jpg", description: "Ancient temples and cherry blossoms." },
 ];
+
+ 
 
 const Home = () => {
-  const [currentImage, setCurrentImage] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const nextSlide = () =>
+    setIndex((prevIndex) => (prevIndex + 1) % images.length);
+  const prevSlide = () =>
+    setIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  const goToSlide = (slideIndex) => setIndex(slideIndex);
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 15000); // 15 seconds
+    return () => clearInterval(interval);
+  }, [index]); // Ensuring interval restarts on each index change
+
+
+
+  const controls = useAnimation();
+  const {  inView } = useInView({ triggerOnce: false, threshold: 0.2 });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({ opacity: 1, y: 0, transition: { duration: 0.8 } });
+    } else {
+      controls.start({ opacity: 0, y: 30 });
+    }
+  }, [inView, controls]);
+
+
+
+
+  const [reviews, setReviews] = useState([
+    { name: "Alice", rating: 5, comment: "Absolutely stunning place!" },
+    { name: "John", rating: 4, comment: "Loved the vibe and history." },
+    { name: "Emma", rating: 5, comment: "Hidden gem! A must-visit." },
+    { name: "Liam", rating: 3, comment: "Nice but could be better." },
+    { name: "Sophia", rating: 4, comment: "A peaceful place to relax." },
+    { name: "Noah", rating: 5, comment: "Amazing experience!" },
+  ]);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const reviewsPerPage = 3;
+  const [newReview, setNewReview] = useState({ name: "", rating: 5, comment: "" });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
+      nextReview();
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentIndex]);
+
+  const nextReview = () => {
+    if (currentIndex + reviewsPerPage < reviews.length) {
+      setCurrentIndex((prev) => prev + reviewsPerPage);
+    } else {
+      setCurrentIndex(0);
+    }
+  };
+
+  const prevReview = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - reviewsPerPage);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setNewReview({ ...newReview, [e.target.name]: e.target.value });
+  };
+
+  const addReview = (e) => {
+    e.preventDefault();
+    if (newReview.name && newReview.comment) {
+      setReviews([...reviews, newReview]);
+      setNewReview({ name: "", rating: 5, comment: "" });
+    }
+  };
 
   return (
-    <div>
-      {/* Hero Section with Slideshow */}
-      <div className="hero-section" style={{ backgroundImage: `url(${images[currentImage]})` }}>
+    <>
+    
+      <div className="slider-container">
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={images[index].src}
+            className="image-slide"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+          >
+            <img
+              src={images[index].src}
+              alt="Travel Destination"
+              className="slider-image"
+              loading="eager"
+            />
+          </motion.div>
+        </AnimatePresence>
+
         <div className="overlay">
-          <h1>Explore Hidden Gems 🌍</h1>
-          <p>Discover breathtaking places you've never seen before.</p>
-          <Link to="/destinations" className="explore-btn">Start Exploring</Link>
+          <motion.h1
+            key={images[index].title}
+            className="title"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 1 }}
+          >
+            {images[index].title}
+          </motion.h1>
+          <motion.p
+            key={images[index].subtitle}
+            className="subtitle"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 1.2 }}
+          >
+            {images[index].subtitle}
+          </motion.p>
+        </div>
+
+        <div className="progress-bar">
+          <motion.div
+            key={index}
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 15, ease: "linear" }}
+          />
+        </div>
+
+        <div className="nav-buttons">
+          <button onClick={prevSlide} className="prev-btn">
+            ❮
+          </button>
+          <button onClick={nextSlide} className="next-btn">
+            ❯
+          </button>
+        </div>
+
+        {/* Image dots (indicators) */}
+        <div className="dots-container">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              className={`dot ${index === i ? "active" : ""}`}
+              onClick={() => goToSlide(i)}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Why Choose Us Section */}
-      <section className="why-choose-us">
-        <h2>Why Choose Us? 🌍</h2>
-        <div className="feature-grid">
-          {[{ icon: <MapPin size={50} color="#FFA500" />, title: "Discover Unique Destinations", desc: "Explore breathtaking hidden gems around the world." },
-          { icon: <Star size={50} color="#FFD700" />, title: "Personalized Travel Plans", desc: "Get tailor-made recommendations just for you." },
-          { icon: <Compass size={50} color="#32CD32" />, title: "Interactive Maps & Guides", desc: "Navigate easily with our smart travel tools." }]
-            .map((feature, index) => (
-              <div key={index} className="feature-box">
-                {feature.icon}
-                <h3>{feature.title}</h3>
-                <p>{feature.desc}</p>
-              </div>
-            ))}
-        </div>
-      </section>
+     <section className="hidden-gems-section">
+      <h1 className="section-title">Hidden Travel Gems</h1>
+      <p className="section-description">Discover breathtaking travel destinations around the world.</p>
 
-      {/* Traveler Reviews */}
-      <section className="reviews py-12 bg-blue-100 text-center">
-        <h2>Traveler Reviews</h2>
-        <div className="review-grid flex justify-center gap-6 flex-wrap">
-          {reviews.map((review, index) => (
-            <div key={index} className="review-box bg-white p-6 rounded-lg shadow-lg w-72 text-center transition-transform transform hover:scale-105">
-              <img src={review.image} alt={review.name} className="w-16 h-16 rounded-full mx-auto mb-4" />
-              <p className="text-lg italic">"{review.review}"</p>
-              <h4 className="text-base font-semibold mt-3">- {review.name}</h4>
+      <div className="gems-grid">
+        {gems.map((gem) => (
+          <div key={gem.id} className="gem-item">
+            <img src={gem.image} alt={gem.name} className="gem-image" />
+            <div className="gem-overlay">
+              <h3>{gem.name}</h3>
+              <p>{gem.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button className="explore-more-btn">Explore More</button>
+    </section>
+
+
+    <div className="user-reviews-container">
+      <h2 className="user-reviews-title">User Reviews & Ratings</h2>
+
+      <div className="reviews-wrapper">
+        {currentIndex > 0 && (
+          <button onClick={prevReview} className="button-prev">
+            <ChevronLeft />
+          </button>
+        )}
+
+        <div className="review-cards">
+          {reviews.slice(currentIndex, currentIndex + reviewsPerPage).map((review, index) => (
+            <div key={index} className="review-card">
+              <p className="review-name">{review.name}</p>
+              <div className="review-stars">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <StarFill key={i} className={`me-1 ${i < review.rating ? "text-warning" : "text-secondary"}`} />
+                ))}
+              </div>
+              <p className="review-comment">"{review.comment}"</p>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* FAQs Section */}
-      <section className="faqs">
-        <h2 className="faq-title">Frequently Asked Questions ❓</h2>
-        <div className="faq-box">
-          {[
-            {
-              question: "Is this service free?",
-              answer: "Yes! Our platform is completely free to use. You can explore all available destinations without any charges. However, some advanced features may require a subscription in the future."
-            },
-            {
-              question: "Can I save my favorite places?",
-              answer: "Absolutely! By creating an account, you can bookmark your favorite locations and revisit them anytime. This feature allows you to keep track of the best spots and plan future visits easily."
-            },
-            {
-              question: "Do I need to create an account?",
-              answer: "No, you can explore the platform without an account. However, signing up unlocks personalized recommendations, the ability to save favorite locations, and access to exclusive travel insights tailored just for you."
-            },
-            {
-              question: "Is my data secure?",
-              answer: "Yes! We take data privacy seriously and follow industry-leading security protocols to protect your personal information. Your data is encrypted, and we do not share it with third parties without your consent."
-            },
-            {
-              question: "Can I share locations with friends?",
-              answer: "Of course! You can easily share any destination with your friends via social media, email, or direct links. This makes it simple to plan group trips or recommend great places to others."
-            }
-          ].map((faq, index) => (
-            <details key={index} className="faq-item">
-              <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
-            </details>
-          ))}
-        </div>
-      </section>
+        {currentIndex + reviewsPerPage < reviews.length && (
+          <button onClick={nextReview} className="button-next">
+            <ChevronRight />
+          </button>
+        )}
+      </div>
 
-
+      <div className="add-review-form">
+        <h3>Add Your Review</h3>
+        <form onSubmit={addReview}>
+          <input type="text" name="name" placeholder="Your Name" value={newReview.name} onChange={handleInputChange} required />
+          <select name="rating" value={newReview.rating} onChange={handleInputChange}>
+            {[5, 4, 3, 2, 1].map((star) => (
+              <option key={star} value={star}>{star} Stars</option>
+            ))}
+          </select>
+          <textarea name="comment" placeholder="Your Review" value={newReview.comment} onChange={handleInputChange} required />
+          <button type="submit">Submit Review</button>
+        </form>
+      </div>
     </div>
+    
+    </>
   );
 };
 
