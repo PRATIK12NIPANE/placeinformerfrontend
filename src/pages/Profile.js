@@ -1,80 +1,92 @@
 import { useEffect, useState } from "react";
-import { getUserProfile, updateUserProfile } from "../api/api";
+import { getUserProfile, updateUserProfile, createUser } from "../api/api";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Button, Form, InputGroup } from "react-bootstrap";
-import { FaEdit } from "react-icons/fa";
+import { Container, Card, Button, Row, Col } from "react-bootstrap";
+import "../styles/Profile.css";
+import { FaUserCircle } from "react-icons/fa"; // Import user icon
+
+
 
 const Profile = () => {
-  const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [updatedUser, setUpdatedUser] = useState({});
+  const [updatedUser, setUpdatedUser] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    city: "",
+    password: ""
+  });
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return navigate("/login");
 
-    getUserProfile(token)
-      .then(({ data }) => {
-        setUser(data);
-        setUpdatedUser(data);
-      })
+    getUserProfile()
+      .then(({ data }) => setUpdatedUser(data))
       .catch(() => navigate("/"));
   }, [navigate]);
 
   const handleSave = async () => {
     try {
-      await updateUserProfile(updatedUser);
-      setUser(updatedUser);
+      if (updatedUser._id) {
+        await updateUserProfile(updatedUser);
+      } else {
+        await createUser(updatedUser);
+      }
       setIsEditing(false);
     } catch (error) {
-      alert("Failed to update profile.");
+      alert("Failed to save profile.");
     }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <Card className="shadow-lg p-4" style={{ width: "400px", borderRadius: "10px" }}>
-        <Card.Body>
-          <h2 className="text-center text-primary fw-bold mb-3">Profile</h2>
+    <Container className="profile-container">
+      <Card className="profile-card">
+        <div className="profile-header">
+        <div className="profile-pic">
+            <FaUserCircle className="user-icon" />
+        </div>
+          <h2 className="profile-name">{updatedUser.username || "User Name"}</h2>
+          <p className="profile-email">{updatedUser.email || "user@example.com"}</p>
+        </div>
 
-          {/* Profile Fields */}
-          <Form>
-            {["username", "email","password", "phone", "city"].map((field) => (
-              <Form.Group className="mb-3" key={field}>
-                <Form.Label className="fw-semibold text-capitalize">{field}</Form.Label>
-                <InputGroup>
-                  <Form.Control
+        <div className="profile-details">
+          {["phone", "city"].map((field) => (
+            <Row className="profile-row" key={field}>
+              <Col xs={4} className="profile-label">{field.charAt(0).toUpperCase() + field.slice(1)}</Col>
+              <Col xs={8}>
+                {isEditing ? (
+                  <input
                     type="text"
                     value={updatedUser[field] || ""}
-                    disabled={!isEditing}
                     onChange={(e) => setUpdatedUser({ ...updatedUser, [field]: e.target.value })}
+                    className="profile-input"
                   />
-                  {field === "username" && (
-                    <Button variant="outline-secondary" onClick={() => setIsEditing(!isEditing)}>
-                      <FaEdit />
-                    </Button>
-                  )}
-                </InputGroup>
-              </Form.Group>
-            ))}
-          </Form>
+                ) : (
+                  <span className="profile-value">{updatedUser[field] || "N/A"}</span>
+                )}
+              </Col>
+            </Row>
+          ))}
+        </div>
 
-          {/* Action Buttons */}
+        <div className="profile-actions">
           {isEditing ? (
-            <Button variant="success" className="w-100 fw-bold mb-2" onClick={handleSave}>
+            <Button className="btn-save" onClick={handleSave}>
               Save Changes
             </Button>
           ) : (
-            <Button variant="outline-primary" className="w-100 fw-bold mb-2" onClick={() => setIsEditing(true)}>
+            <Button className="btn-edit" onClick={() => setIsEditing(true)}>
               Edit Profile
             </Button>
           )}
 
-          <Button variant="danger" className="w-100 fw-bold" onClick={() => { localStorage.removeItem("token"); navigate("/"); }}>
+          <Button className="btn-logout" onClick={() => { localStorage.removeItem("token"); navigate("/"); }}>
             Logout
           </Button>
-        </Card.Body>
+        </div>
       </Card>
     </Container>
   );
