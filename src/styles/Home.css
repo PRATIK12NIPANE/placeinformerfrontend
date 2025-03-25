@@ -1,232 +1,535 @@
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Calibri", sans-serif;
-  font-weight: normal;
+
+
+/* Full-screen responsive slider */
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-body {
-  background-color: #ffffff; /* Light background */
-  color: #2c3e50; /* Darker text for contrast */
+/* Image Styling */
+.image-slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-/* Hero Section */
-.hero-section {
-  height: 90vh;
-  background-size: cover;
-  background-position: center;
+.slider-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease-in-out;
+}
+
+/* Dark overlay for text */
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  width: 90%;
+  max-width: 800px;
+}
+
+/* Title & Subtitle */
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  animation: fadeInText 1s ease-in-out;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+  margin-top: 10px;
+  animation: fadeInText 1.5s ease-in-out;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 80%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-50%);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar div {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff8c00, #ff2d55);
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  padding: 0 20px;
+}
+
+.prev-btn,
+.next-btn {
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: black;
+  transform: scale(1.1);
+}
+
+/* Image Dots (Indicators) */
+.dots-container {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  display: flex;
+  gap: 10px;
+  transform: translateX(-50%);
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dot:hover,
+.dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .title { font-size: 3rem; }
+  .subtitle { font-size: 1.2rem; }
+}
+
+@media (max-width: 768px) {
+  .title { font-size: 2.5rem; }
+  .subtitle { font-size: 1rem; }
+  .prev-btn, .next-btn { padding: 10px; font-size: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .overlay { width: 95%; }
+  .title { font-size: 2rem; line-height: 1.2; }
+  .subtitle { font-size: 1rem; }
+  .prev-btn, .next-btn { padding: 8px; font-size: 1.2rem; }
+  .dot { width: 12px; height: 12px; }
+  .progress-bar { width: 90%; }
+}
+
+
+
+
+
+/* second section */
+
+
+/* Hidden Gems Section */
+.hidden-gems-section {
+  width: 100%;
+  padding: 100px 20px;
+  text-align: center;
+  background: url('../../public/images/travel-bg.jpg') center/cover no-repeat;
+  color: #333;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title & Description */
+.section-title {
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #222;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.section-description {
+  font-size: 1.5rem;
+  margin-bottom: 50px;
+  color: #555;
+}
+
+
+
+/* Gems Grid */
+.gems-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+  flex-wrap: nowrap;
+}
+
+/* Gem Item */
+.gem-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 30%;
+  height: 450px;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Gem Image (Always Dark) */
+.gem-image {
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Name (Always Visible at the Bottom) */
+.gem-overlay h3 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: white;
+  padding: 12px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+  text-align: center;
+  width: 90%;
+}
+
+/* Hover Effects */
+.gem-item:hover .gem-image {
+  filter: brightness(0.5);
+  transform: scale(1.05);
+}
+
+/* Move H3 to Center on Hover */
+.gem-item:hover .gem-overlay h3 {
+  top: 50%;
+  bottom: unset;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  font-size: 2rem;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Hover Overlay Text (Hidden Initially) */
+.gem-overlay p {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  width: 80%;
+}
+/* Show P Tag on Hover with Animation */
+.gem-item:hover .gem-overlay p {
+  opacity: 1;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Button */
+.explore-more-btn {
+  margin-top: 40px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: white;
+  border: none;
+  padding: 16px 38px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.explore-more-btn:hover {
+  background: linear-gradient(135deg, #ff1e56, #ff5733);
+  transform: scale(1.08);
+  box-shadow: 5px 5px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Fixes */
+@media (max-width: 1024px) {
+  .gems-grid {
+    flex-wrap: wrap;
+  }
+  .gem-item {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .gems-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .gem-item {
+    width: 90%;
+  }
+  .section-title {
+    font-size: 2.5rem;
+  }
+  .section-description {
+    font-size: 1.2rem;
+  }
+}
+
+
+
+@media (max-width: 480px) {
+  .hidden-gems-section {
+    padding: 60px 15px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  .gems-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .gem-item {
+    width: 100%;
+    height: 350px;
+  }
+
+  .gem-overlay h3 {
+    font-size: 1.4rem;
+    padding: 10px;
+    width: 80%;
+  }
+
+  .gem-item:hover .gem-overlay h3 {
+    font-size: 1.6rem;
+  }
+
+  .gem-overlay p {
+    font-size: 1rem;
+  }
+
+  .explore-more-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+
+
+
+
+
+/* third section */
+
+
+
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+
+.user-reviews-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  text-align: center;
+}
+
+.user-reviews-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.reviews-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: background-image 1s ease-in-out;
 }
 
-.overlay {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 40px;
-  border-radius: 12px;
-  text-align: center;
-  color: #34495e;
-  max-width: 75%;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.overlay h1 {
-  font-size: 3.2rem;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-.overlay p {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  color: #4a6274;
-}
-
-.explore-btn {
-  padding: 14px 30px;
-  background: #3498db;
-  color: white;
-  font-size: 1.1rem;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: transform 0.3s, background 0.3s;
-}
-
-.explore-btn:hover {
-  transform: scale(1.1);
-  background: #2980b9;
-}
-
-/* Why Choose Us Section */
-.why-choose-us {
-  text-align: center;
-  padding: 70px 20px;
-  background: linear-gradient(135deg, #ecf0f1, #d5dbdb);
-  color: #2c3e50;
-}
-
-.why-choose-us h2 {
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin-bottom: 25px;
-  color: #1f3a52;
-}
-
-.feature-grid {
+.review-cards {
   display: flex;
-  justify-content: center;
-  gap: 25px;
-  flex-wrap: wrap;
+  transition: transform 0.6s ease-in-out;
+  gap: 15px;
+  width: 80%;
+  overflow: hidden;
 }
 
-.feature-box {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 25px;
-  border-radius: 15px;
-  width: 320px;
-  text-align: center;
-  transition: transform 0.3s;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.feature-box:hover {
-  transform: scale(1.05);
-}
-
-.feature-box h3 {
-  font-size: 1.7rem;
-  font-weight: bold;
-  margin: 12px 0;
-  color: #2c3e50;
-}
-
-/* Traveler Reviews */
-.reviews {
-  background: #fafafa;
-  padding: 70px 20px;
-  text-align: center;
-}
-
-.reviews h2{
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin-bottom: 25px;
-  color: #1f3a52;
-}
-
-.review-grid {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  flex-wrap: wrap;
-}
-
-.review-box {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
-  text-align: center;
-}
-
-.review-box:hover {
-  transform: scale(1.05);
-}
-
-.review-box img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  margin-bottom: 12px;
-}
-
-.review-box p {
-  font-size: 1.2rem;
-  font-style: italic;
-  color: #4a6274;
-}
-
-/* FAQs Section */
-.faqs {
-  padding: 80px 20px;
-  text-align: center;
-  background: #eef5f9;
-  color: #2c3e50;
-  font-family: "Calibri", sans-serif;
-}
-
-.faq-title {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  font-weight: bold;
-  color: #1f3a52;
-}
-
-.faq-box {
-  max-width: 1200px;
-  margin: auto;
-  text-align: left;
-}
-
-.faq-item {
-  margin: 15px auto;
+.review-card {
+  flex: 1;
+  min-width: 300px;
   padding: 20px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.95);
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transform: scale(0.95);
+  transition: transform 0.3s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 0.9;
 }
 
-.faq-item:hover {
-  transform: scale(1.03);
-  background: #ffffff;
+.review-card:hover {
+  transform: scale(1);
+  opacity: 1;
 }
 
-summary {
-  font-size: 1.4rem;
+.review-name {
+  font-size: 18px;
   font-weight: bold;
-  color: #2c3e50;
-  cursor: pointer;
+}
+
+.review-stars {
+  margin: 10px 0;
+  color: #ffd700;
+}
+
+.review-comment {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.button-prev,
+.button-next {
+  background: #f8f9fa;
+  border: none;
   padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  color: #333;
+  font-size: 20px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-summary::marker {
-  color: #2980b9;
+.button-prev:hover,
+.button-next:hover {
+  background: #007bff;
+  color: white;
+  transform: scale(1.1);
 }
 
-.faq-item p {
-  font-size: 1.2rem;
-  color: #4a6274;
-  padding: 12px 0 0;
-  line-height: 1.6;
-}
-
-
-details {
-  margin: 15px auto;
-  padding: 18px;
+.add-review-form {
+  max-width: 600px;
+  margin: 20px auto;  /* Centers horizontally */
+  padding: 15px;
+  background: #f9f9f9;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  transition: transform 0.3s;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Centers text inside */
 }
 
-details:hover {
-  transform: scale(1.02);
+
+.add-review-form input,
+.add-review-form textarea,
+.add-review-form select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-summary {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #2c3e50;
+.add-review-form button {
+  margin-top: 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
   cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-review-form button:hover {
+  background: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .review-cards {
+    width: 100%;
+  }
+  .review-card {
+    min-width: 90%;
+  }
+  .button-prev, .button-next {
+    padding: 10px;
+    font-size: 18px;
+  }
 }
