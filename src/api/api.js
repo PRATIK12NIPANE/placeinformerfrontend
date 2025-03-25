@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://placeinformer.onrender.com";
+const API_URL = "https://placeinformer.onrender.com/api";
 
 // Register User
 export const registerUser = async (userData) => {
